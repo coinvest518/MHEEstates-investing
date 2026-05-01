@@ -35,7 +35,7 @@ function ImageGallery({ images, title }: { images: Deal["images"]; title: string
   const current = images[idx] ?? images[0]
 
   return (
-    <div className="aspect-video bg-muted relative overflow-hidden">
+    <div className="aspect-[4/3] bg-muted relative overflow-hidden">
       <img
         key={current.src}
         src={current.src}
@@ -85,25 +85,25 @@ export function LiveDealCard({ deal, index = 0 }: { deal: Deal; index?: number }
       className="overflow-hidden deal-card-glow border border-border bg-card flex flex-col reveal"
       style={{ "--reveal-delay": `${index * 110}ms` } as React.CSSProperties}
     >
-      <div className="aspect-video bg-muted relative overflow-hidden">
+      <div className="aspect-[4/3] bg-muted relative overflow-hidden">
         <img
           src={deal.images[0]?.src ?? "/placeholder.jpg"}
           alt={deal.images[0]?.alt ?? deal.title}
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/35 to-transparent pointer-events-none" />
-        <div className="absolute top-3 left-3">
+        <div className="absolute top-2.5 left-2.5">
           <Badge className={STATUS_CLASSES[deal.status]}>{STATUS_LABEL[deal.status]}</Badge>
         </div>
-        <div className="absolute top-3 right-3">
-          <Badge variant="secondary" className="bg-background/85 text-foreground backdrop-blur-sm">
+        <div className="absolute top-2.5 right-2.5">
+          <Badge variant="secondary" className="bg-background/85 text-foreground backdrop-blur-sm text-[11px]">
             <MapPin className="w-3 h-3 mr-1" />
             {deal.location}
           </Badge>
         </div>
       </div>
 
-      <CardContent className="p-5 flex flex-col flex-1 gap-4">
+      <CardContent className="p-4 flex flex-col flex-1 gap-3">
         <div className="space-y-1.5">
           <h3 className="text-lg font-bold text-card-foreground leading-snug">{deal.title}</h3>
           <p className="text-sm text-muted-foreground text-pretty line-clamp-3">{deal.developmentPlan}</p>

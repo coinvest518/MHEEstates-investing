@@ -8,15 +8,15 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex flex-col justify-end overflow-hidden">
-      {/* Full-bleed background — real property photo */}
+      {/* Full-bleed background — brand graphic */}
       <div className="absolute inset-0">
         <img
-          src="/property-2-third-ave/property-1-eagle-images/Eagel Property 1.jpg"
-          alt="246 Eagle St — community land acquisition project"
+          src="/imagesnew/buy-land-build-hope.png"
+          alt="Buy Land. Build Hope. — Crowdfund. Win auctions. Change lives."
           className="w-full h-full object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/55 to-black/20" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/35 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/55 to-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/45 via-black/15 to-transparent" />
       </div>
 
       {/* Main content */}

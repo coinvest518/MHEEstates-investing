@@ -13,7 +13,7 @@ export function LiveDeals() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 reveal-stagger">
+        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto reveal-stagger">
           {DEALS.map((deal, i) => (
             <LiveDealCard key={deal.id} deal={deal} index={i} />
           ))}

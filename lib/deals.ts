@@ -64,29 +64,6 @@ export const DEALS: Deal[] = [
       "Remainder funds site prep and initial build-out",
     ],
   },
-  {
-    id: "property-003",
-    title: "The Vision — Vacant Lot to Food Garden",
-    location: "Albany County, NY",
-    status: "coming-soon",
-    purchasePrice: 0,
-    targetRaise: 0,
-    raisedSoFar: 0,
-    developmentPlan:
-      "This is what your contribution builds. A neglected, overgrown lot — bought at a tax auction for under $2,000 — becomes a thriving community food garden with raised beds, composting stations, and a shared harvest program open to the whole neighborhood.",
-    timeline: "Spring–Summer 2026",
-    images: [
-      { src: "/imagesnew/before-and-after.jpg", alt: "Before and after: vacant lot transformed into a community food garden" },
-    ],
-    highlights: [
-      "Before: abandoned vacant lot acquired at tax auction",
-      "After: raised beds, tool shed, composting station, open to all",
-      "Shared harvest — neighbors grow and eat together",
-      "Fencing, soil, seeds, and tools funded by pooled contributions",
-      "Every $20 contribution moves the transformation forward",
-      "Be part of the before-and-after story from day one",
-    ],
-  },
 ]
 
 export const progressPct = (d: Deal): number => {
