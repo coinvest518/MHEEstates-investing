@@ -4,7 +4,6 @@ import { useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Progress } from "@/components/ui/progress"
 import {
   Dialog,
   DialogContent,
@@ -15,7 +14,7 @@ import {
 } from "@/components/ui/dialog"
 import { MapPin, Calendar, Sprout, ChevronLeft, ChevronRight, ExternalLink } from "lucide-react"
 import type { Deal } from "@/lib/deals"
-import { progressPct } from "@/lib/deals"
+import { LiveProgressMeter } from "@/components/live-progress-meter"
 
 const STATUS_LABEL: Record<Deal["status"], string> = {
   active: "Active",
@@ -77,7 +76,6 @@ function ImageGallery({ images, title }: { images: Deal["images"]; title: string
 }
 
 export function LiveDealCard({ deal, index = 0 }: { deal: Deal; index?: number }) {
-  const pct = progressPct(deal)
   const isComingSoon = deal.status === "coming-soon"
 
   return (
@@ -122,13 +120,11 @@ export function LiveDealCard({ deal, index = 0 }: { deal: Deal; index?: number }
               </div>
             </div>
 
-            <div className="space-y-1.5">
-              <div className="flex justify-between text-xs">
-                <span className="text-muted-foreground">${deal.raisedSoFar.toLocaleString()} pooled</span>
-                <span className="font-bold text-primary">{pct}%</span>
-              </div>
-              <Progress value={pct} className="h-1.5" />
-            </div>
+            <LiveProgressMeter
+              dealId={deal.id}
+              baseline={deal.raisedSoFar}
+              target={deal.targetRaise}
+            />
           </>
         )}
 
@@ -166,23 +162,22 @@ export function LiveDealCard({ deal, index = 0 }: { deal: Deal; index?: number }
                 </div>
                 <p className="text-sm text-foreground text-pretty">{deal.developmentPlan}</p>
                 {!isComingSoon && (
-                  <div className="grid grid-cols-2 gap-4 text-sm border border-border rounded-xl p-4 bg-muted/30">
-                    <div>
-                      <div className="text-xs text-muted-foreground mb-1">Purchase price</div>
-                      <div className="font-bold text-lg">${deal.purchasePrice.toLocaleString()}</div>
+                  <div className="border border-border rounded-xl p-4 bg-muted/30 space-y-4">
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <div className="text-xs text-muted-foreground mb-1">Purchase price</div>
+                        <div className="font-bold text-lg">${deal.purchasePrice.toLocaleString()}</div>
+                      </div>
+                      <div>
+                        <div className="text-xs text-muted-foreground mb-1">Target raise</div>
+                        <div className="font-bold text-lg">${deal.targetRaise.toLocaleString()}</div>
+                      </div>
                     </div>
-                    <div>
-                      <div className="text-xs text-muted-foreground mb-1">Target raise</div>
-                      <div className="font-bold text-lg">${deal.targetRaise.toLocaleString()}</div>
-                    </div>
-                    <div>
-                      <div className="text-xs text-muted-foreground mb-1">Pooled so far</div>
-                      <div className="font-bold">${deal.raisedSoFar.toLocaleString()}</div>
-                    </div>
-                    <div>
-                      <div className="text-xs text-muted-foreground mb-1">Progress</div>
-                      <div className="font-bold text-primary">{pct}%</div>
-                    </div>
+                    <LiveProgressMeter
+                      dealId={deal.id}
+                      baseline={deal.raisedSoFar}
+                      target={deal.targetRaise}
+                    />
                   </div>
                 )}
                 {deal.highlights.length > 0 && (
