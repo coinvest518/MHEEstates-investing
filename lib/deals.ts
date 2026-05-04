@@ -43,7 +43,7 @@ export const DEALS: Deal[] = [
     status: "active",
     purchasePrice: 1075,
     targetRaise: 4000,
-    raisedSoFar: 100,
+    raisedSoFar: 1306.5,
     developmentPlan:
       "Convert to a community food garden with raised beds, a tool shed, and a shared harvest program for neighbors.",
     timeline: "Spring 2026",
@@ -87,7 +87,7 @@ export const DEALS: Deal[] = [
     status: "active",
     purchasePrice: 1500,
     targetRaise: 4500,
-    raisedSoFar: 100,
+    raisedSoFar: 1306.5,
     developmentPlan:
       "Second auction-won lot. Planned use to be decided with member input — options include companion food garden or a small community gathering space.",
     timeline: "Summer 2026",

@@ -119,12 +119,21 @@ export function InvestorInquiryModal({ trigger }: Props) {
         </DialogHeader>
 
         {submitted ? (
-          <div className="py-10 text-center space-y-3">
+          <div className="py-10 text-center space-y-4">
             <h3 className="text-xl font-bold">Thanks — we&apos;ll be in touch.</h3>
             <p className="text-muted-foreground text-sm text-pretty">
               We review every investor inquiry personally. Expect an email from us shortly.
             </p>
-            <Button variant="outline" onClick={() => setOpen(false)}>
+            <div className="pt-2 border-t border-border">
+              <a
+                href="/pdfs/project-outline.pdf"
+                download
+                className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-semibold text-sm transition-colors"
+              >
+                ↓ Download project outline
+              </a>
+            </div>
+            <Button variant="outline" onClick={() => setOpen(false)} className="mt-2">
               Close
             </Button>
           </div>

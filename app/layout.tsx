@@ -4,6 +4,7 @@ import { GeistMono } from 'geist/font/mono'
 import { Analytics } from '@vercel/analytics/next'
 import { Toaster } from '@/components/ui/sonner'
 import { RevealObserver } from '@/components/reveal-observer'
+import { ElevenLabsConvaiWidget } from '@/components/elevenlabs-convai-widget'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -40,6 +41,7 @@ export default function RootLayout({
         <Toaster />
         <Analytics />
         <RevealObserver />
+        <ElevenLabsConvaiWidget />
       </body>
     </html>
   )

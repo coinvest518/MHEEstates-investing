@@ -16,7 +16,7 @@ export function SiteFooter() {
   return (
     <footer className="bg-secondary text-secondary-foreground py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="grid md:grid-cols-4 gap-8">
+        <div className="grid md:grid-cols-5 gap-8">
           <div>
             <div className="flex items-center gap-2 mb-3">
               <img
@@ -83,23 +83,41 @@ export function SiteFooter() {
               </li>
               <li>
                 <a
-                  href="mailto:hello@mhegardens.com"
+                  href="mailto:mhegardens518@gmail.com"
                   className="hover:text-secondary-foreground transition-colors"
                 >
-                  hello@mhegardens.com
+                  mhegardens518@gmail.com
                 </a>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-semibold mb-4">Legal</h4>
+            <ul className="space-y-3 text-secondary-foreground/80 text-sm">
+              <li>
+                <a
+                  href="/pdfs/project-outline.pdf"
+                  download
+                  className="hover:text-secondary-foreground transition-colors font-semibold"
+                >
+                  ↓ Project Outline
+                </a>
+              </li>
+              <li className="text-xs text-secondary-foreground/70 pt-2 border-t border-secondary-foreground/20">
+                <p className="text-pretty">
+                  CommunityAcre is a community impact pool, not an investment offering. Contributions
+                  support land acquisition and development of community assets. No financial returns
+                  are promised. Tax-deductible donations handled by Fortis Proles Inc. (501(c)(3)) via
+                  Zeffy.
+                </p>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-secondary-foreground/20 mt-12 pt-8 space-y-3 text-secondary-foreground/70 text-sm">
-          <p className="text-pretty max-w-3xl">
-            CommunityAcre is a community impact pool, not an investment offering. Contributions support
-            land acquisition and development of community assets. No financial returns are promised.
-            Tax-deductible donations handled by Fortis Proles Inc. (501(c)(3)) via Zeffy.
-          </p>
-          <p>&copy; 2026 CommunityAcre — a project of MHE Gardens.</p>
+        <div className="border-t border-secondary-foreground/20 mt-12 pt-8">
+          <p className="text-secondary-foreground/70 text-sm">&copy; 2026 CommunityAcre — a project of MHE Gardens.</p>
         </div>
       </div>
     </footer>

@@ -142,7 +142,16 @@ export function JoinReserveForm() {
               <p className="text-muted-foreground text-pretty">
                 We&apos;ll reach out with deal updates and the next auction we&apos;re tracking.
               </p>
-              <Button variant="outline" onClick={() => setSubmitted(false)}>
+              <div className="pt-2 border-t border-border">
+                <a
+                  href="/pdfs/project-outline.pdf"
+                  download
+                  className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-semibold text-sm transition-colors"
+                >
+                  ↓ Download project outline
+                </a>
+              </div>
+              <Button variant="outline" onClick={() => setSubmitted(false)} className="mt-2">
                 Submit another response
               </Button>
             </div>
