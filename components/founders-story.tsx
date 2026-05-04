@@ -51,18 +51,10 @@ export function FoundersStory() {
 
             <div className="flex flex-wrap gap-5 pt-2">
               <a
-                href="https://www.mhegardens.com"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 text-accent hover:text-accent/80 font-semibold transition-colors"
-              >
-                Visit MHE Gardens <ArrowRight className="h-4 w-4" />
-              </a>
-              <a
                 href="https://www.zeffy.com/en-US/peer-to-peer/buy-land-together"
                 target="_blank"
                 rel="noreferrer noopener"
-                className="inline-flex items-center gap-2 text-secondary-foreground/70 hover:text-secondary-foreground font-medium transition-colors text-sm"
+                className="inline-flex items-center gap-2 text-accent hover:text-accent/80 font-semibold transition-colors"
               >
                 Donate via Zeffy (tax-deductible) <ArrowRight className="h-4 w-4" />
               </a>

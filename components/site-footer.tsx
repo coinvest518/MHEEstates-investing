@@ -29,14 +29,9 @@ export function SiteFooter() {
             <p className="text-secondary-foreground/80 text-pretty mb-3">
               Buy land together. Build real assets.
             </p>
-            <a
-              href="https://www.mhegardens.com"
-              target="_blank"
-              rel="noreferrer"
-              className="text-sm text-secondary-foreground/70 hover:text-secondary-foreground transition-colors uppercase tracking-wider"
-            >
-              A project of MHE Gardens →
-            </a>
+            <span className="text-sm text-secondary-foreground/70 uppercase tracking-wider">
+              A project of MHE Gardens
+            </span>
           </div>
 
           <div>
@@ -92,16 +87,6 @@ export function SiteFooter() {
                   className="hover:text-secondary-foreground transition-colors"
                 >
                   hello@mhegardens.com
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.mhegardens.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="hover:text-secondary-foreground transition-colors"
-                >
-                  mhegardens.com
                 </a>
               </li>
             </ul>

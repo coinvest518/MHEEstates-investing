@@ -161,6 +161,16 @@ export function LiveDealCard({ deal, index = 0 }: { deal: Deal; index?: number }
                   <ImageGallery images={deal.images} title={deal.title} />
                 </div>
                 <p className="text-sm text-foreground text-pretty">{deal.developmentPlan}</p>
+                {deal.investmentPitch && (
+                  <div className="rounded-xl border-l-4 border-accent bg-accent/5 p-4">
+                    <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-1.5">
+                      Why this lot
+                    </p>
+                    <p className="text-sm text-foreground text-pretty leading-relaxed">
+                      {deal.investmentPitch}
+                    </p>
+                  </div>
+                )}
                 {!isComingSoon && (
                   <div className="border border-border rounded-xl p-4 bg-muted/30 space-y-4">
                     <div className="grid grid-cols-2 gap-4 text-sm">
@@ -191,6 +201,39 @@ export function LiveDealCard({ deal, index = 0 }: { deal: Deal; index?: number }
                         </li>
                       ))}
                     </ul>
+                  </div>
+                )}
+                {deal.parcelDetails && (
+                  <div>
+                    <h4 className="font-semibold mb-3">Parcel details</h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-sm border border-border rounded-xl p-4 bg-muted/20">
+                      {[
+                        ["Municipality", deal.parcelDetails.municipality],
+                        ["Tax Map #", deal.parcelDetails.taxMapNumber],
+                        ["SWIS", deal.parcelDetails.swis],
+                        ["Class Code", deal.parcelDetails.classCode],
+                        ["School District", deal.parcelDetails.schoolDistrict],
+                        ["Lot Size", deal.parcelDetails.lotSize],
+                        ["Land Assessment", `$${deal.parcelDetails.landAssessment.toLocaleString()}`],
+                        ["Total Assessment", `$${deal.parcelDetails.totalAssessment.toLocaleString()}`],
+                        ["Full Market Value", `$${deal.parcelDetails.fullMarketValue.toLocaleString()}`],
+                        ["Sewer", deal.parcelDetails.sewerType],
+                        ["Water", deal.parcelDetails.waterSupply],
+                        ["Utilities", deal.parcelDetails.utilities],
+                      ].map(([label, value]) => (
+                        <div key={label} className="flex justify-between gap-4 py-1 border-b border-border/40 last:border-b-0">
+                          <span className="text-muted-foreground">{label}</span>
+                          <span className="font-medium text-foreground text-right">{value}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="mt-3 text-xs italic text-muted-foreground">
+                      {deal.parcelDetails.description}
+                    </p>
+                    <p className="mt-2 text-[11px] text-muted-foreground/70">
+                      Information deemed reliable, but not guaranteed. Bidders should rely on their own
+                      inspections and research of each property.
+                    </p>
                   </div>
                 )}
                 <div className="flex gap-3 pt-2">

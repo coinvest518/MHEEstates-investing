@@ -2,7 +2,8 @@ import { NextResponse } from "next/server"
 import { z } from "zod"
 import { Resend } from "resend"
 
-const LeadSchema = z.object({
+const CommunityPoolSchema = z.object({
+  source: z.literal("community-pool").default("community-pool"),
   name: z.string().min(1).max(120),
   email: z.string().email().max(160),
   contributionTier: z.enum(["20", "50", "100", "100+"]),
@@ -11,17 +12,130 @@ const LeadSchema = z.object({
   website: z.string().max(0).optional(),
 })
 
-const INTEREST_LABEL: Record<z.infer<typeof LeadSchema>["interest"], string> = {
+const RentALotSchema = z.object({
+  source: z.literal("rent-a-lot"),
+  name: z.string().min(1).max(120),
+  email: z.string().email().max(160),
+  preferredLot: z.enum(["eagle", "third", "either"]),
+  plotTier: z.enum(["starter", "family", "communal"]),
+  experience: z.enum(["first-timer", "some", "master"]),
+  notes: z.string().max(2000).optional(),
+  website: z.string().max(0).optional(),
+})
+
+const InvestorSchema = z.object({
+  source: z.literal("investor"),
+  name: z.string().min(1).max(120),
+  email: z.string().email().max(160),
+  organization: z.string().max(160).optional(),
+  phone: z.string().max(40).optional(),
+  track: z.enum(["sponsor", "in-kind", "for-profit", "learning"]),
+  checkSize: z.enum(["under-1k", "1k-5k", "5k-25k", "25k+", "other"]),
+  message: z.string().max(2000).optional(),
+  website: z.string().max(0).optional(),
+})
+
+const LeadSchema = z.discriminatedUnion("source", [
+  CommunityPoolSchema,
+  RentALotSchema,
+  InvestorSchema,
+])
+
+const INTEREST_LABEL = {
   community: "Community projects",
   housing: "Housing",
   opportunities: "Future opportunities",
   education: "Education / guides",
-}
+} as const
+
+const LOT_LABEL = {
+  eagle: "246 Eagle St",
+  third: "181 Third Ave",
+  either: "Either lot",
+} as const
+
+const TIER_LABEL = {
+  starter: "Starter Plot (4×8) — ~$15/mo",
+  family: "Family Plot (8×12) — ~$30/mo",
+  communal: "Communal Share — ~$5/mo",
+} as const
+
+const EXPERIENCE_LABEL = {
+  "first-timer": "First-timer",
+  some: "Some experience",
+  master: "Master gardener",
+} as const
+
+const TRACK_LABEL = {
+  sponsor: "Sponsor a lot",
+  "in-kind": "In-kind partner",
+  "for-profit": "For-profit interest",
+  learning: "Just learning",
+} as const
+
+const CHECK_LABEL = {
+  "under-1k": "Under $1,000",
+  "1k-5k": "$1,000–$5,000",
+  "5k-25k": "$5,000–$25,000",
+  "25k+": "$25,000+",
+  other: "Other",
+} as const
 
 const escape = (s: string) =>
   s.replace(/[&<>"']/g, (c) =>
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!)
   )
+
+const row = (label: string, value: string) =>
+  `<p><strong>${label}:</strong> ${escape(value)}</p>`
+
+function buildEmail(data: z.infer<typeof LeadSchema>): { subject: string; html: string } {
+  if (data.source === "rent-a-lot") {
+    const html = `
+      <h2>New Rent-a-Lot inquiry</h2>
+      ${row("Name", data.name)}
+      ${row("Email", data.email)}
+      ${row("Preferred lot", LOT_LABEL[data.preferredLot])}
+      ${row("Plot tier", TIER_LABEL[data.plotTier])}
+      ${row("Experience", EXPERIENCE_LABEL[data.experience])}
+      ${data.notes ? `<p><strong>Notes:</strong><br/>${escape(data.notes).replace(/\n/g, "<br/>")}</p>` : ""}
+    `
+    return {
+      subject: `[Rent-a-Lot] ${data.name} — ${TIER_LABEL[data.plotTier]}`,
+      html,
+    }
+  }
+
+  if (data.source === "investor") {
+    const html = `
+      <h2>New Investor inquiry</h2>
+      ${row("Name", data.name)}
+      ${row("Email", data.email)}
+      ${data.organization ? row("Organization", data.organization) : ""}
+      ${data.phone ? row("Phone", data.phone) : ""}
+      ${row("Track", TRACK_LABEL[data.track])}
+      ${row("Check size", CHECK_LABEL[data.checkSize])}
+      ${data.message ? `<p><strong>Message:</strong><br/>${escape(data.message).replace(/\n/g, "<br/>")}</p>` : ""}
+    `
+    return {
+      subject: `[Investor] ${data.name} — ${CHECK_LABEL[data.checkSize]}`,
+      html,
+    }
+  }
+
+  const html = `
+    <h2>New CommunityAcre lead</h2>
+    ${row("Name", data.name)}
+    ${row("Email", data.email)}
+    ${row("Contribution tier", `$${data.contributionTier}`)}
+    ${row("Interest", INTEREST_LABEL[data.interest])}
+    ${data.notes ? `<p><strong>Notes:</strong><br/>${escape(data.notes).replace(/\n/g, "<br/>")}</p>` : ""}
+  `
+  return {
+    subject: `[CommunityAcre] New lead: ${data.name} ($${data.contributionTier})`,
+    html,
+  }
+}
 
 export async function POST(req: Request) {
   let body: unknown
@@ -29,6 +143,10 @@ export async function POST(req: Request) {
     body = await req.json()
   } catch {
     return NextResponse.json({ ok: false, error: "Invalid JSON" }, { status: 400 })
+  }
+
+  if (body && typeof body === "object" && !("source" in (body as Record<string, unknown>))) {
+    ;(body as Record<string, unknown>).source = "community-pool"
   }
 
   const parsed = LeadSchema.safeParse(body)
@@ -57,22 +175,14 @@ export async function POST(req: Request) {
   }
 
   const resend = new Resend(apiKey)
-
-  const html = `
-    <h2>New CommunityAcre lead</h2>
-    <p><strong>Name:</strong> ${escape(data.name)}</p>
-    <p><strong>Email:</strong> ${escape(data.email)}</p>
-    <p><strong>Contribution tier:</strong> $${escape(data.contributionTier)}</p>
-    <p><strong>Interest:</strong> ${escape(INTEREST_LABEL[data.interest])}</p>
-    ${data.notes ? `<p><strong>Notes:</strong><br/>${escape(data.notes).replace(/\n/g, "<br/>")}</p>` : ""}
-  `
+  const { subject, html } = buildEmail(data)
 
   try {
     const { error } = await resend.emails.send({
       from,
       to,
       replyTo: data.email,
-      subject: `[CommunityAcre] New lead: ${data.name} ($${data.contributionTier})`,
+      subject,
       html,
     })
     if (error) {

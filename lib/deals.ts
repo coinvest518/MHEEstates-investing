@@ -1,5 +1,21 @@
 export type DealStatus = "active" | "coming-soon" | "funded"
 
+export interface ParcelDetails {
+  municipality: string
+  swis: string
+  taxMapNumber: string
+  classCode: string
+  schoolDistrict: string
+  lotSize: string
+  landAssessment: number
+  totalAssessment: number
+  fullMarketValue: number
+  sewerType: string
+  waterSupply: string
+  utilities: string
+  description: string
+}
+
 export interface Deal {
   id: string
   title: string
@@ -14,13 +30,16 @@ export interface Deal {
   timeline?: string
   images: { src: string; alt: string }[]
   highlights: string[]
+  investmentPitch?: string
+  parcelDetails?: ParcelDetails
 }
 
 export const DEALS: Deal[] = [
   {
     id: "property-001",
-    title: "Property #001 — Albany County Lot",
-    location: "Albany County, NY",
+    title: "Property #001 — 246 Eagle St, Albany",
+    location: "246 Eagle St, Albany, NY",
+    parcelId: "76.56-4-60",
     status: "active",
     purchasePrice: 1075,
     targetRaise: 4000,
@@ -42,11 +61,29 @@ export const DEALS: Deal[] = [
       "Estimated total with fees: $1,200–$1,400",
       "Remainder of pooled funds covers fencing, soil, raised beds, and tools",
     ],
+    investmentPitch:
+      "Won at county tax auction for $1,075 against a $3,125 county-assessed market value — a built-in spread the day we get the deed. Public sewer, water, gas, and electric already at the curb means almost no infrastructure cost to convert into a working community garden. Walking distance from MHE Gardens' existing footprint, so volunteer labor and tools are already in the neighborhood.",
+    parcelDetails: {
+      municipality: "City of Albany",
+      swis: "010100",
+      taxMapNumber: "76.56-4-60",
+      classCode: "311 — Residential Vacant Land",
+      schoolDistrict: "Albany",
+      lotSize: "11 ft × 66 ft",
+      landAssessment: 3000,
+      totalAssessment: 3000,
+      fullMarketValue: 3125,
+      sewerType: "Public",
+      waterSupply: "Public",
+      utilities: "Gas & Electric",
+      description: "Vacant lot located to the left of house 244.",
+    },
   },
   {
     id: "property-002",
-    title: "Property #002 — Third Ave Lot",
-    location: "Third Ave, Upstate NY",
+    title: "Property #002 — 181 Third Ave, Albany",
+    location: "181 Third Ave, Albany, NY",
+    parcelId: "76.56-4-38",
     status: "active",
     purchasePrice: 1500,
     targetRaise: 4500,
@@ -59,10 +96,29 @@ export const DEALS: Deal[] = [
       { src: "/property-2-third-ave/second land deal image.jpg", alt: "Third Ave lot — property view" },
     ],
     highlights: [
-      "Won at tax auction alongside Property #001",
+      "Address: 181 Third Ave (Albany County, NY)",
+      "Won at tax auction alongside Property #001 for $1,500",
+      "Larger footprint — over 2,200 sq ft",
       "Members vote on development direction",
       "Remainder funds site prep and initial build-out",
     ],
+    investmentPitch:
+      "Same auction night, second win — $1,500 in for a parcel the county marks at $3,125. A larger footprint than Eagle St (over 2,200 sq ft) gives us room for either a companion food garden or a small open-air gathering space. Member vote decides the build.",
+    parcelDetails: {
+      municipality: "City of Albany",
+      swis: "010100",
+      taxMapNumber: "76.56-4-38",
+      classCode: "311 — Residential Vacant Land",
+      schoolDistrict: "Albany",
+      lotSize: "21 ft × 105.48 ft",
+      landAssessment: 3000,
+      totalAssessment: 3000,
+      fullMarketValue: 3125,
+      sewerType: "Public",
+      waterSupply: "Public",
+      utilities: "Gas & Electric",
+      description: "Vacant lot located to the right of house 183.",
+    },
   },
 ]
 
